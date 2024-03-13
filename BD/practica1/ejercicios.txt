@@ -254,26 +254,160 @@ mysql> select tda_ger from tiendas;
 
 7. Listado de ventas realizadas al cliente número 7.
 
+SELECT * FROM ventas WHERE CLT_NUM = 7;
 
+7	3	10	1	2019-10-15
+7	3	11	2	2019-10-15
+7	3	14	3	2019-10-16
+7	8	3	1	2020-02-03
 
 8. Nombre y apellidos del cliente número 7.
+
+Select clt_nom, clt_apell from clientes where clt_num=7;
+
+Pablo	Goméz
+
 9. Listado de artículos de color rojo.
+
+select * from articulos where art_col="rojo";
+
+1	impresora	150	rojo	400	580	4
+4	lampara	550	rojo	20	33	5
+10	boligrafo	20	rojo	0.5	1	2
+12	boligrafo lujo	20	rojo	0.6	3	2
+
 10. Listado de proveedores cuyo código es superior 5
+
+select * from proveedores where  prv_num>5;
+
+6	copisteria
+7	el corte suizo
+8	Mercadiz
+9	El ahorramas
+10	Sara hogar
+	
+
 11. Listado que muestre información de los pesos cuyo nombre/descripción sea leve y
 ligero.
+
+select * from pesos where  peso_nom="leve" or peso_nom="ligero";
+
+leve	1	100
+ligero	101	500
+		
 12. Listado de ventas realizadas durante el mes de febrero de 2020.
+
+select * from ventas where vnt_fch >= "2020-02-01" and vnt_fch <= "2020-02-29";
+
+7	8	3	1	2020-02-03
+4	5	3	6	2020-02-04
+10	11	3	1	2020-02-06
+6	7	3	1	2020-02-11
+3	4	3	2	2020-02-16
+9	10	3	1	2020-02-21
+2	3	3	4	2020-02-22
+8	9	3	1	2020-02-29
+5	6	3	3	2020-02-29
+
 13. Listado de clientes que viven en España ordenados alfabéticamente según su población
 (un cliente vive en España si en la columna CLT_PAIS aparece la letra ‘e’).
+
+
+select * from clientes where clt_pais="e" order by clt_nom;
+
+	5	Llopis	Antoni	e	Barcelona
+	9	Roman	Consuelo	e	Jaen
+	13	Cortes	Diego	e	Madrid
+	22	Alonso	Fernando	e	Gijón
+	15	Duran	Jacinto	e	Pamplona
+	17	Ubrique	Jesus	e	Pamplona
+	11	Mancha	Jorge	e	Valencia
+	25	Florero	Mar	e	Barcelona
+	24	Florero	Mar	e	Madrid
+	1	Borras	Margarita	e	Madrid
+	2	Perez	Miguel	e	Madrid
+	12	Curro	Pablo	e	Barcelona
+	7	Goméz	Pablo	e	Pamplona
+	21	Clavel rojo	Paco	e	Oviedo
+	10	Roca	Pau	e	Gerona
+	23	Rodriguez	Pedrito	e	Arico
+	16	Minguin	Pedro	e	Pamplona
+	18	Mazapato	Sophie	e	Madrid
+
+
 14. Listado de artículos que provee el proveedor (ART_PRV) número 5 ordenados de mayor
 a menor precio de compra (ART_PC)
+
+select * from articulos where art_prv=5 order by art_pc desc;
+
+6	lampara	550	azul	25	36	5
+7	lampara	550	verde	25	37	5
+4	lampara	550	rojo	20	33	5
+5	lampara	550	blanco	20	34	5
+
 15. Listado de las tiendas que no sean ni de Palencia, ni de Pamplona, ni de Jerez.
+
+select * from tiendas where TDA_POB!="Palencia" AND TDA_POB!="Pamplona" AND TDA_POB!="Jerez"
+
+1	Madrid-batan	Contesfosques, Jordi
+2	Madrid-centro	Martinez, Juan
+4	Barcelona	Pega, Jose Maria
+5	Trujillo	Mendez, Pedro
+6	Jaen	Marin, Raquel
+7	Valencia	Petit, Joan
+8	Requena	Marcos, Pilar
+10	Gerona	Gomez, Gabriel
+11	Lyon	Madoux, Jean
+12	París	Fouet, Paul
+14	Barcelona	Peralta, Leo
+
 16. Listado de ventas realizadas por la tienda número 11 ordenadas cronológicamente por
 fecha y, en caso de que dos ventas se hayan realizado el mismo día, que se ordenen
 por la cantidad vendida de mayor a menor.
+
+select * from ventas where vnt_tda 11 order by vnt_fch asc, vnt_cant desc;
+
+8	11	2	1	2019-10-25
+4	11	1	8	2019-12-22
+4	11	10	7	2019-12-23
+10	11	3	1	2020-02-06
+8	11	21	1	2022-05-10
+
 17. Listado de clientes que viven en una ciudad cuyo nombre empieza por M o cuyo país
 sea Francia (‘f’).
+
+select * from clientes where clt_pob like "M%" or clt_pais = "f"
+
+1	Borras	Margarita	e	Madrid
+2	Perez	Miguel	e	Madrid
+3	Dupont	Jean	f	París
+4	Dupreit	Michel	f	Lyon
+6	Souris	Marcel	f	París
+8	Courbon	Gerad	f	Marsella
+13	Cortes	Diego	e	Madrid
+14	Fernandez	Joaquin	c	Madrid
+18	Mazapato	Sophie	e	Madrid
+24	Florero	Mar	e	Madrid
+
 18. Listado de artículos cuyo nombre sea calendario o papel, y cuyo precio de venta
 (ART_PV) sea superior al doble del precio de compra (ART_PC).
+
+select * from articulos where (art_nom ="calendario" or art_nom = "papel") AND art_pv > 2 * art_pc;
+
+3	calendario	100	blanco	1	4	4
+19	calendario	110	negro	0.6	2.5	4
+
 19. Listado de ventas cuya cantidad no esté definida.
+
+select * from ventas where vnt_cant is null;
+
+10	4	2		2020-03-03
+3	13	3		2020-03-03
+
 20. Buscar un cliente cuyo apellido empiece por ‘Du’, termine por ‘t’ y contenga
 exactamente 7 letras.
+
+select * from clientes where clt_apell like "Du%t" and length(clt_apell)=7;
+
+4	Dupreit	Michel	f	Lyon
+				
