@@ -2,6 +2,8 @@ Tema 1: Manipulación de datos
 
 Listado de ejercicios
 
+==================================EJERCICIO 1================================================
+
     1. Escriba por pantalla la instrucción necesaria para mostrar la estructura de la tabla
 clientes.
 
@@ -39,8 +41,7 @@ select * from clientes;
 +---------+-------------+-----------+----------+-----------+
 26 rows in set (0,00 sec)
 
-
-    2. Listado con el nombre y apellidos de todos los clientes.
+==================================EJERCICIO 2================================================    2. Listado con el nombre y apellidos de todos los clientes.
 
 describe clientes;                                                                                                                              
 +-----------+-------------+------+-----+---------+-------+                                                                                             
@@ -54,14 +55,207 @@ describe clientes;
 +-----------+-------------+------+-----+---------+-------+
 5 rows in set (0,01 sec)
 
+Select clt_nom, clt_apell from clientes;
 
++-----------+-------------+
+| clt_nom   | clt_apell   |
++-----------+-------------+
+| Margarita | Borras      |
+| Miguel    | Perez       |
+| Jean      | Dupont      |
+| Michel    | Dupreit     |
+| Antoni    | Llopis      |
+| Marcel    | Souris      |
+| Pablo     | Goméz       |
+| Gerad     | Courbon     |
+| Consuelo  | Roman       |
+| Pau       | Roca        |
+| Jorge     | Mancha      |
+| Pablo     | Curro       |
+| Diego     | Cortes      |
+| Joaquin   | Fernandez   |
+| Jacinto   | Duran       |
+| Pedro     | Minguin     |
+| Jesus     | Ubrique     |
+| Sophie    | Mazapato    |
+| Jose Mari | Bigote      |
+| Romualdo  | Dalima      |
+| Paco      | Clavel rojo |
+| Fernando  | Alonso      |
+| Pedrito   | Rodriguez   |
+| Mar       | Florero     |
+| Mar       | Florero     |
+| Leo       | Peralta     |
++-----------+-------------+
+
+==================================EJERCICIO 3================================================
 
 3. Listado articulos. Para cada artículo deberá mostrarse la siguiente información: código
 numérico, nombre y color.
+
+describe articulos;                                                                                                                                                                   
++----------+-------------+------+-----+---------+-------+                                                                                                                                    
+| Field    | Type        | Null | Key | Default | Extra |                                                                                                                                    
++----------+-------------+------+-----+---------+-------+                                                                                                                                    
+| ART_NUM  | int         | NO   | PRI | NULL    |       |                                                                                                                                    
+| ART_NOM  | varchar(20) | NO   |     | NULL    |       |                                                                                                                                    
+| ART_PESO | int         | YES  |     | NULL    |       |
+| ART_COL  | varchar(7)  | YES  |     | NULL    |       |
+| ART_PC   | float       | NO   |     | NULL    |       |
+| ART_PV   | float       | NO   |     | NULL    |       |
+| ART_PRV  | int         | YES  | MUL | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+
+select art_num,art_nom,art_col from articulos;
++---------+-------------------+---------+
+| art_num | art_nom           | art_col |
++---------+-------------------+---------+
+|       1 | impresora         | rojo    |
+|       2 | calculadora       | negro   |
+|       3 | calendario        | blanco  |
+|       4 | lampara           | rojo    |
+|       5 | lampara           | blanco  |
+|       6 | lampara           | azul    |
+|       7 | lampara           | verde   |
+|       8 | pesacartas 1-500  | NULL    |
+|       9 | pesacartas 1-1000 | NULL    |
+|      10 | boligrafo         | rojo    |
+|      11 | boligrafo         | azul    |
+|      12 | boligrafo lujo    | rojo    |
+|      13 | boligrafo lujo    | verde   |
+|      14 | boligrafo lujo    | azul    |
+|      15 | boligrafo lujo    | negro   |
+|      16 | papel             | rosa    |
+|      17 | grapadora         | verde   |
+|      18 | impresora         | morado  |
+|      19 | calendario        | negro   |
+|      20 | manta             | malva   |
+|      21 | bandera           | verde   |
+|      69 | papel             | rosa    |
+|      70 | boligrafo rbb     | NULL    |
+|      99 | papel             | morado  |
++---------+-------------------+---------+
+
+==================================EJERCICIO 4================================================
+
+
 4. Listado de proveedores. Para cada proveedor deberá mostrarse únicamente su nombre.
+
+mysql> describe proveedores;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| PRV_NUM | int         | NO   | PRI | NULL    |       |
+| PRV_NOM | varchar(25) | NO   |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+2 rows in set (0,00 sec)
+
+mysql> select prv_nom from proveedores;
++------------------------+
+| prv_nom                |
++------------------------+
+| catio electronic       |
+| estilografica reunidas |
+| mecanica de precision  |
+| sanjita                |
+| electrolamp            |
+| copisteria             |
+| el corte suizo         |
+| Mercadiz               |
+| El ahorramas           |
+| Sara hogar             |
++------------------------+
+10 rows in set (0,00 sec)
+
+
+==================================EJERCICIO 5================================================
+
 5. Listado de pesos. Deberán mostrarse todas las columnas de la tabla pesos.
+
+mysql> describe pesos;
++----------+------------+------+-----+---------+-------+
+| Field    | Type       | Null | Key | Default | Extra |
++----------+------------+------+-----+---------+-------+
+| PESO_NOM | varchar(9) | NO   | PRI | NULL    |       |
+| PESO_MIN | int        | NO   |     | NULL    |       |
+| PESO_MAX | int        | NO   |     | NULL    |       |
++----------+------------+------+-----+---------+-------+
+3 rows in set (0,00 sec)
+
+mysql> select * from pesos;
++----------+----------+----------+
+| PESO_NOM | PESO_MIN | PESO_MAX |
++----------+----------+----------+
+| leve     |        1 |      100 |
+| ligero   |      101 |      500 |
+| medio    |      501 |     2500 |
+| pesado   |     2501 |     5000 |
+| sin peso |        0 |        0 |
++----------+----------+----------+
+5 rows in set (0,00 sec)
+
+
+==================================EJERCICIO 6================================================
+
 6. Listado de gerentes de las tiendas.
+
+mysql> use BD_tiendas 
+Database changed
+mysql> show tables;
++----------------------+
+| Tables_in_BD_tiendas |
++----------------------+
+| articulos            |
+| clientes             |
+| empleados            |
+| paises               |
+| pesos                |
+| proveedores          |
+| tiendas              |
+| ventas               |
++----------------------+
+8 rows in set (0,01 sec)
+
+mysql> describe tiendas;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| TDA_NUM | int         | NO   | PRI | NULL    |       |
+| TDA_POB | varchar(20) | NO   |     | NULL    |       |
+| TDA_GER | varchar(25) | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+3 rows in set (0,00 sec)
+
+mysql> select tda_ger from tiendas;
++----------------------+
+| tda_ger              |
++----------------------+
+| Contesfosques, Jordi |
+| Martinez, Juan       |
+| Dominguez, Julian    |
+| Pega, Jose Maria     |
+| Mendez, Pedro        |
+| Marin, Raquel        |
+| Petit, Joan          |
+| Marcos, Pilar        |
+| Castroviejo, Lozano  |
+| Gomez, Gabriel       |
+| Madoux, Jean         |
+| Fouet, Paul          |
+| Peralta, Leo         |
+| Peralta, Leo         |
+| Perez, Juan Carlos   |
++----------------------+
+15 rows in set (0,00 sec)
+
+
+
+==================================EJERCICIO 7================================================
+
 7. Listado de ventas realizadas al cliente número 7.
+
+
+
 8. Nombre y apellidos del cliente número 7.
 9. Listado de artículos de color rojo.
 10. Listado de proveedores cuyo código es superior 5
