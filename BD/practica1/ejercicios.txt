@@ -411,3 +411,158 @@ select * from clientes where clt_apell like "Du%t" and length(clt_apell)=7;
 
 4	Dupreit	Michel	f	Lyon
 				
+
+21. Listado de poblaciones de las tiendas. El listado debe mostrarse sin repeticiones y
+ordenado alfabéticamente por nombre de población.
+
+mysql> select distinct tda_pob from tiendas order by tda_pob asc;
++---------------+
+| tda_pob       |
++---------------+
+| Barcelona     |
+| Gerona        |
+| Jaen          |
+| Jerez         |
+| Lyon          |
+| Madrid-batan  |
+| Madrid-centro |
+| Palencia      |
+| Pamplona      |
+| París         |
+| Requena       |
+| Trujillo      |
+| Valencia      |
++---------------+
+13 rows in set (0,00 sec)
+
+
+
+22. Listado que muestre la información de las poblaciones de los clientes en dos columnas:
+población y país. No deben aparecer repeticiones del par clt_pob, clt_pais.
+
+mysql> SELECT DISTINCT clt_pob, clt_pais  FROM clientes;
++-----------+----------+
+| clt_pob   | clt_pais |
++-----------+----------+
+| Madrid    | e        |
+| París     | f        |
+| Lyon      | f        |
+| Barcelona | e        |
+| Pamplona  | e        |
+| Marsella  | f        |
+| Jaen      | e        |
+| Gerona    | e        |
+| Valencia  | e        |
+| Madrid    | c        |
+| Oporto    | p        |
+| San José  | b        |
+| Oviedo    | e        |
+| Gijón     | e        |
+| Arico     | e        |
+| Rosario   | a        |
++-----------+----------+
+16 rows in set (0,01 sec)
+
+23. Listado que muestre la gama de artículos proporcionados por el proveedor número 2
+(art_prv). El listado deberá mostrar 3 columnas con la siguiente información y con el
+siguiente título para las columnas: “Nombre”, “Color” y “Precio de Venta”. El listado
+deberá ordenarse de más caro a más barato y, cuando dos artículos tengan el mismo
+precio, que se ordene alfabéticamente por nombre.
+
+mysql> select art_nom 'Nombre', art_col 'Color', art_pc 'Precio de venta' from articulos where art_prv = 2 order by art_pc desc, art_nom asc;
++----------------+-------+-----------------+
+| Nombre         | Color | Precio de venta |
++----------------+-------+-----------------+
+| manta          | malva |              67 |
+| papel          | rosa  |               3 |
+| boligrafo lujo | verde |            1.99 |
+| boligrafo lujo | azul  |            1.99 |
+| boligrafo lujo | negro |            1.99 |
+| boligrafo lujo | rojo  |             0.6 |
+| boligrafo      | rojo  |             0.5 |
+| boligrafo      | azul  |             0.5 |
++----------------+-------+-----------------+
+8 rows in set (0,00 sec)
+
+
+24. Listado de ventas realizadas por el cliente número 1 (vnt_clt) cuyo código de artículo
+comprado (vnt_art) esté entre el 12 y el 20. La información a mostrar junto con su
+cabecera es la que sigue a continuación: “Tienda”, “Artículo”, “Cantidad” y “Fecha de
+compra”.
+
+mysql> select vnt_tda "Tienda", vnt_art "Articulo", vnt_cant "Cantidad", vnt_fch "Fecha" from ventas where vnt_clt = 1 AND vnt_art BETWEEN 12 AND 20;
++--------+----------+----------+------------+
+| Tienda | Articulo | Cantidad | Fecha      |
++--------+----------+----------+------------+
+|      2 |       12 |        1 | 2019-12-02 |
+|      2 |       13 |       10 | 2019-12-12 |
++--------+----------+----------+------------+
+2 rows in set (0,01 sec)
+
+
+25. Listado de tiendas en el que debe aparecer cada tiendas y su gerente. La cabecera
+deberá mostrar “Gerente” y “Población”, en ese orden. Además, el listado deberá estar
+ordenado alfabéticamente por nombre de gerente en primer lugar y por población en
+segundo lugar. Deberá excluir del listado las tiendas de París, las tiendas de Lyon y las
+que empiezan por “Madrid”.
+
+mysql> select tda_ger "Gerentes", tda_pob "Poblacion" from tiendas where tda_pob not in ("paris, lyon") and tda_pob  not like "madrid%" order by tda_ger asc, tda_pob asc;
++---------------------+-----------+
+| Gerentes            | Poblacion |
++---------------------+-----------+
+| Castroviejo, Lozano | Palencia  |
+| Dominguez, Julian   | Pamplona  |
+| Fouet, Paul         | París     |
+| Gomez, Gabriel      | Gerona    |
+| Madoux, Jean        | Lyon      |
+| Marcos, Pilar       | Requena   |
+| Marin, Raquel       | Jaen      |
+| Mendez, Pedro       | Trujillo  |
+| Pega, Jose Maria    | Barcelona |
+| Peralta, Leo        | Jerez     |
+| Petit, Joan         | Valencia  |
++---------------------+-----------+
+11 rows in set (0,00 sec)
+
+
+
+26. Listado de artículos cuyo nombre empiece por la letra ‘b’ o que empiece por la letra ‘i’.
+Además, tampoco deben aparecer en el listado aquellos cuyo peso o color es nulo. El
+listado deberá estar ordenado por precio de coste (de más caro a más barato).
+
+mysql> select art_nom from articulos where (art_nom like "b%" or art_nom like "i%") and art_col is not null and art_peso is not null order by art_pc desc;
++----------------+
+| art_nom        |
++----------------+
+| impresora      |
+| impresora      |
+| boligrafo lujo |
+| boligrafo lujo |
+| boligrafo lujo |
+| boligrafo lujo |
+| boligrafo      |
+| boligrafo      |
++----------------+
+8 rows in set (0,00 sec)
+
+27. Listado de fechas diferentes en las que se ha comprado el artículo número 9.
+Únicamente debe aparecer la columna de las fechas y debe aparecer con el texto
+‘Fecha’. Ordene el listado cronológicamente.
+
+
+
+28. Muestre un listado de proveedores cuyo nombre contiene la sílaba “ca” pero que no
+termine en nic. La cabecera del listado debe ser la siguiente: “Código numérico” y
+“Nombre del proveedor”.
+29. Listado de tiendas cuyo gerente se llama Juan Carlos.
+30. Listado de clientes cuyo nombre empiece por J, cuyo apellido no termine en z y, que sea
+de Madrid, Barcelona, Valencia o Pamplona o su identificador (clt_num) esté entre el 1 y
+el 10.
+
+
+
+Listado de proveedores cuyo nombre contenga la palabra "Componentes" o cuyo nombre termine en "Suministros". 
+El listado deberá estar ordenado alfabéticamente por nombre de proveedor y deberá mostrar las columnas correspondientes
+al número de proveedor y su nombre. Las cabeceras de estas columnas deberán ser, respectivamente: Número de proveedor, Nombre.
+
+select prv_num "Numero de proveedor", prv_nom "Nombre de proveedor" from proveedores where prv_nom like "%Componentes%" or prv_nom like "%Suministros" order by prv_nom asc;
