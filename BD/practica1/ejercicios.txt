@@ -566,3 +566,285 @@ El listado deberá estar ordenado alfabéticamente por nombre de proveedor y deb
 al número de proveedor y su nombre. Las cabeceras de estas columnas deberán ser, respectivamente: Número de proveedor, Nombre.
 
 select prv_num "Numero de proveedor", prv_nom "Nombre de proveedor" from proveedores where prv_nom like "%Componentes%" or prv_nom like "%Suministros" order by prv_nom asc;
+
+1. Listado de pesos que muestre para cada registro la diferencia entre el peso máximo y el
+peso mínimo.
+
+select peso_nom, peso_max - peso_min as diferencia from pesos;
++----------+------------+
+| peso_nom | diferencia |
++----------+------------+
+| leve     |         99 |
+| ligero   |        399 |
+| medio    |       1999 |
+| pesado   |       2499 |
+| sin peso |          0 |
++----------+------------+
+
+2. Consulta que te devuelva el día de la semana que naciste.
+
+select dayname('2002-12-06');
+
++-----------------------+
+| dayname('2002-12-06') |
++-----------------------+
+| Friday                |
++-----------------------+
+
+3. Listado de países que empiezan por A. El listado deberá mostrar el nombre de los
+países en mayúscula.
+
+select UPPER(pai_nombre) "PAIS" from paises where pai_nombre like "A%";
++-------------------+
+| PAIS              |
++-------------------+
+| AFGANISTÁN        |
+| ALBANIA           |
+| ALEMANIA          |
+| ANDORRA           |
+| ANGOLA            |
+| ANTIGUA Y BARBUDA |
+| ARABIA SAUDITA    |
+| ARGELIA           |
+| ARGENTINA         |
+| ARMENIA           |
+| AUSTRALIA         |
+| AUSTRIA           |
+| AZERBAIYÁN        |
++-------------------+
+
+4. Listado de proveedores que empiezan por E, ya sea letra mayúscula o minúscula.
+PISTA: Utilice la función UPPER y un LIKE, no es válido utilizar dos likes.
+
+select UPPER(prv_nom) "Proveedores" from proveedores where upper(prv_nom) like "E%";
++-------------------------+
+| Proveedores             |
++-------------------------+
+| ESTILOGRAFICA REUNIDAS  |
+| ELECTROLAMP SUMINISTROS |
+| EL CORTE SUIZO          |
++-------------------------+
+
+5. Listado de empleados mayores de 40 años.
+
+SELECT emp_nombre, emp_apellidos
+    -> FROM empleados
+    -> WHERE YEAR(CURDATE()) - YEAR(emp_nacimiento) > 40;
++------------+---------------+
+| emp_nombre | emp_apellidos |
++------------+---------------+
+| María      | González      |
+| Sara       | Hernández     |
+| Diego      | Sanchez       |
++------------+---------------+
+3 rows in set (0,00 sec)
+
+mysql> SELECT emp_nombre, emp_apellidos FROM empleados WHERE datediff(curdate(),emp_nacimiento) > 14600;
++------------+---------------+
+| emp_nombre | emp_apellidos |
++------------+---------------+
+| María      | González      |
+| Sara       | Hernández     |
+| Diego      | Sanchez       |
++------------+---------------+
+3 rows in set (0,00 sec)
+
+6. Muestre un listado de clientes con dos columnas: en la primera columna debe aparecer
+el nombre completo de los clientes (nombre + apellido), mientras que en la segunda
+columna debe aparecer la inicial del país en mayúscula.
+
+select concat (clt_nom, ' ', clt_apell) AS Nombre_completo, upper(left(clt_pais,1)) as InicialPais from clientes;
++-------------------+-------------+
+| Nombre_completo   | InicialPais |
++-------------------+-------------+
+| Margarita Borras  | E           |
+| Miguel Perez      | E           |
+| Jean Dupont       | F           |
+| Michel Dupreit    | F           |
+| Antoni Llopis     | E           |
+| Marcel Souris     | F           |
+| Pablo Goméz       | E           |
+| Gerad Courbon     | F           |
+| Consuelo Roman    | E           |
+| Pau Roca          | E           |
+| Jorge Mancha      | E           |
+| Pablo Curro       | E           |
+| Diego Cortes      | E           |
+| Joaquin Fernandez | C           |
+| Jacinto Duran     | E           |
+| Pedro Minguin     | E           |
+| Jesus Ubrique     | E           |
+| Sophie Mazapato   | E           |
+| Jose Mari Bigote  | P           |
+| Romualdo Dalima   | B           |
+| Paco Clavel rojo  | E           |
+| Fernando Alonso   | E           |
+| Pedrito Rodriguez | E           |
+| Mar Florero       | E           |
+| Mar Florero       | E           |
+| Leo Peralta       | A           |
++-------------------+-------------+
+
+7. Listado de artículos cuyo precio de venta sea superior al doble del precio de compra
+ordenado por beneficio de manera descendente.
+
+mysql> select art_nom, art_pv - 2*art_pc as beneficio from articulos where art_pv>2*art_pc order by beneficio desc;
++-------------------+----------------------+
+| art_nom           | beneficio            |
++-------------------+----------------------+
+| pesacartas 1-1000 |                    5 |
+| calendario        |                    2 |
+| pesacartas 1-500  |                    2 |
+| boligrafo lujo    |   1.7999999523162842 |
+| calendario        |   1.2999999523162842 |
+| boligrafo lujo    |   1.0099997520446777 |
+| boligrafo lujo    |   1.0099997520446777 |
+| boligrafo lujo    | 0.009999990463256836 |
++-------------------+----------------------+
+8 rows in set (0,00 sec)
+
+EN ESTA PRIMERA COLUM SE CUENTA EL BENEFICIO A PARTIR DEL DOBLE
+
+mysql> SELECT ART_NOM, ART_PV - ART_PC AS Beneficio
+    -> FROM articulos
+    -> WHERE ART_PV > 2 * ART_PC
+    -> ORDER BY Beneficio DESC;
++-------------------+-------------------+
+| ART_NOM           | Beneficio         |
++-------------------+-------------------+
+| pesacartas 1-1000 |                 7 |
+| calendario        |                 3 |
+| pesacartas 1-500  |                 3 |
+| boligrafo lujo    | 2.999999761581421 |
+| boligrafo lujo    | 2.999999761581421 |
+| boligrafo lujo    | 2.399999976158142 |
+| boligrafo lujo    |                 2 |
+| calendario        | 1.899999976158142 |
++-------------------+-------------------+
+8 rows in set (0,00 sec)
+
+
+8. Listado de ventas realizadas en algún día 2 (de cualquier mes y cualquier año). PISTA:
+no use LIKE y use la función DAY().
+
+mysql> select * from ventas where day(vnt_fch)=2;
++---------+---------+---------+----------+------------+
+| VNT_CLT | VNT_TDA | VNT_ART | VNT_CANT | VNT_FCH    |
++---------+---------+---------+----------+------------+
+|       6 |      12 |      15 |        2 | 2019-11-02 |
+|      13 |       1 |       4 |        1 | 2019-11-02 |
+|       1 |       2 |      12 |        1 | 2019-12-02 |
+|      26 |       4 |      17 |        2 | 2020-03-02 |
++---------+---------+---------+----------+------------+
+
+9. Listado de empleados cuyo nombre tenga más de 5 caracteres.
+
+mysql> select emp_nombre "Nombre" from empleados where length(emp_nombre) > 5;
++--------+
+| Nombre |
++--------+
+| María  |
+| Carlos |
+| Miguel |
+| Javier |
+| Carmen |
+| Andrea |
+| Daniel |
+| Lucía  |
+| Carlos |
+| Pierre |
++--------+
+
+
+10. Listado que devuelva el código de la tienda, la población y el nombre de los gerentes.
+Ojo, queremos sólo el nombre, no el apellido, por lo que tendrá que utilizar alguna
+función que extraiga el nombre de la columna tda_ger, que contiene apellido + nombre.
+
+mysql> select tda_num "Codigo tienda", tda_pob "Ubicacion", substring_index(tda_ger, ' ',-1) AS Nombre from tiendas;
++---------------+---------------+---------+
+| Codigo tienda | Ubicacion     | Nombre  |
++---------------+---------------+---------+
+|             1 | Madrid-batan  | Jordi   |
+|             2 | Madrid-centro | Juan    |
+|             3 | Pamplona      | Julian  |
+|             4 | Barcelona     | Maria   |
+|             5 | Trujillo      | Pedro   |
+|             6 | Jaen          | Raquel  |
+|             7 | Valencia      | Joan    |
+|             8 | Requena       | Pilar   |
+|             9 | Palencia      | Lozano  |
+|            10 | Gerona        | Gabriel |
+|            11 | Lyon          | Jean    |
+|            12 | París         | Paul    |
+|            13 | Jerez         | Leo     |
++---------------+---------------+---------+
+13 rows in set (0,00 sec)
+
+11. Listado que muestre la fecha de jubilación de los empleados. El listado deberá mostrar
+los nombres y apellidos de los empleados, además de su fecha de jubilación. Los
+empleados se jubilan con 65 años.
+
+mysql> SELECT concat(emp_nombre, ' ',emp_apellidos) AS Nombre_completo, DATE_ADD(emp_nacimiento, INTERVAL 65 YEAR) AS Fecha_Jubilacion FROM empleados;
++-------------------+------------------+
+| Nombre_completo   | Fecha_Jubilacion |
++-------------------+------------------+
+| María González    | 2046-01-01       |
+| José Rodríguez    | 2053-09-20       |
+| David Martínez    | 2060-02-10       |
+| Ana López         | 2058-11-30       |
+| Juan Sánchez      | 2050-07-25       |
+| Pedro Gómez       | 2052-04-18       |
+| Laura Díaz        | 2056-08-05       |
+| Carlos Fernández  | 2059-03-12       |
+| Elena Pérez       | 2054-06-28       |
+| Miguel Muñoz      | 2057-10-09       |
+| Sara Hernández    | 2045-12-31       |
+| Javier Torres     | 2055-12-20       |
+| Carmen Flores     | 2053-03-05       |
+| Luis Romero       | 2059-01-18       |
+| Paula Alvarez     | 2062-05-25       |
+| Diego Sanchez     | 2048-08-10       |
+| Andrea Garcia     | 2054-11-30       |
+| Daniel Martinez   | 2061-04-28       |
+| Lucía Lopez       | 2058-07-12       |
+| Mario Gomez       | 2052-02-18       |
+| John Smith        | 2055-05-15       |
+| Emily Johnson     | 2053-09-20       |
+| Carlos Garcia     | 2060-02-10       |
+| Anna Müller       | 2058-11-30       |
+| Pierre Dubois     | 2050-07-25       |
++-------------------+------------------+
+
+12. Listado de empleados que muestre la fecha de nacimiento de los empleados con el
+siguiente formato: 4/8/1967
+
+mysql> SELECT concat(emp_nombre, ' ',emp_apellidos) AS Nombre_completo, date_format(emp_nacimiento, '%d/%m/%Y') as Fecha_nacimiento FROM empleados;
++-------------------+------------------+                                                                                                               
+| Nombre_completo   | Fecha_nacimiento |                                                                                                               
++-------------------+------------------+                                                                                                               
+| María González    | 01/01/1981       |                                                                                                               
+| José Rodríguez    | 20/09/1988       |                                                                                                               
+| David Martínez    | 10/02/1995       |                                                                                                               
+| Ana López         | 30/11/1993       |                                                                                                               
+| Juan Sánchez      | 25/07/1985       |                                                                                                               
+| Pedro Gómez       | 18/04/1987       |                                                                                                               
+| Laura Díaz        | 05/08/1991       |                                                                                                               
+| Carlos Fernández  | 12/03/1994       |                                                                                                                                                     
+| Elena Pérez       | 28/06/1989       |                                                                                                                                                     
+| Miguel Muñoz      | 09/10/1992       |                                                                                                                                                     
+| Sara Hernández    | 31/12/1980       |                                                                                                                                                     
+| Javier Torres     | 20/12/1990       |
+| Carmen Flores     | 05/03/1988       |
+| Luis Romero       | 18/01/1994       |
+| Paula Alvarez     | 25/05/1997       |
+| Diego Sanchez     | 10/08/1983       |
+| Andrea Garcia     | 30/11/1989       |
+| Daniel Martinez   | 28/04/1996       |
+| Lucía Lopez       | 12/07/1993       |
+| Mario Gomez       | 18/02/1987       |
+| John Smith        | 15/05/1990       |
+| Emily Johnson     | 20/09/1988       |
+| Carlos Garcia     | 10/02/1995       |
+| Anna Müller       | 30/11/1993       |
+| Pierre Dubois     | 25/07/1985       |
++-------------------+------------------+
